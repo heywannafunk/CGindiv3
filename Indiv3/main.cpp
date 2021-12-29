@@ -232,6 +232,7 @@ int main() {
 						if (!movingRight && (lane > -1)) {
 							movingLeft = true;
 							lane--;
+							cout << "Lane changed to: " << lane << endl;
 						}
 					}
 					break;
@@ -242,6 +243,7 @@ int main() {
 						if (!movingLeft && (lane < 1)) {
 							movingRight = true;
 							lane++;
+							cout << "Lane changed to: " << lane << endl;
 						}
 					}
 					break;
@@ -301,7 +303,7 @@ int main() {
 			if (busPos[0] < 0.01 && busPos[0] > -0.01) {
 				movingLeft = false;
 			}
-			if (busPos[0] < -1.1) {
+			if (busPos[0] < -1.5) {
 				movingLeft = false;
 			}
 		}
@@ -312,7 +314,7 @@ int main() {
 			if (busPos[0] < 0.01 && busPos[0] > -0.01) {
 				movingRight = false;
 			}
-			if (busPos[0] > 1.1) {
+			if (busPos[0] > 1.5) {
 				movingRight = false;
 			}
 		}

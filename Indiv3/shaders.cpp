@@ -29,20 +29,20 @@ const char* VertexShaderSource = R"(
 	} Vert;
 
     void main() {
-
 		float x_scale = scale[0];
 		float y_scale = scale[1];
 		float z_scale = scale[2];
+		
+
 		vec3 vertex = coord * mat3(
 									x_scale, 0, 0,
 									0, y_scale, 0,
 									0, 0, z_scale);	
-
 		float x_angle = rotate[0];
         float y_angle = rotate[1];
 		float z_angle = rotate[2];
         
-        // Поворачиваем вершину
+
         mat3 rotate = mat3(
             1, 0, 0,
             0, cos(x_angle), -sin(x_angle),
@@ -80,7 +80,6 @@ const char* VertexShaderSource = R"(
 					0, 0, -1/c, 1);
 
 		gl_Position = vec4(vert.xy, last_z * vert[3] / 100, vert[3]);
-
 		Vert.texcoord = texcoord;
 		Vert.normal = normal * rotate;
 		Vert.lightDir = light.direction;
@@ -119,7 +118,6 @@ const char* FragShaderSource = R"(
 	out vec4 color;
 
     void main() {
-		
 		vec3 normal = normalize(Vert.normal);
 		vec3 lightDir = normalize(Vert.lightDir);
 		vec3 viewDir = normalize(Vert.viewDir);
@@ -134,7 +132,5 @@ const char* FragShaderSource = R"(
 		color +=material.specular * light.specular * RdotVpow;
 
 		color *= texture(textureData, Vert.texcoord);
-
-		//color = vec4(Ndot);
     }
 )";

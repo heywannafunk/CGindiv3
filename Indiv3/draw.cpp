@@ -75,20 +75,20 @@ float road1Pos[3] = { 0.0f, -1.0f, 10.0f };
 float road2Pos[3] = { 0.0f, -1.0f, 30.0f };
 float road3Pos[3] = { 0.0f, -1.0f, 50.0f };
 float roadRotate[3] = { 0.0f, 0.0f, 0.0f };
-float roadScale[3] = { 0.1f, 0.1f, 0.1f };
+float roadScale[3] = { 0.15f, 0.15f, 0.1f };
 
 float grassLAngle[3] = { 0.0f, -3.1415f, 0.0f };
 float grassRAngle[3] = { 0.0f, 0.0f, 0.0f };
-float grassL1Pos[3] = { -11.5f, -1.0f, 10.0f };
-float grassL2Pos[3] = { -11.5f, -1.0f, 30.0f };
-float grassL3Pos[3] = { -11.5f, -1.0f, 50.0f };
-float grassR1Pos[3] = { 11.5f, -1.0f, 10.0f };
-float grassR2Pos[3] = { 11.5f, -1.0f, 30.0f };
-float grassR3Pos[3] = { 11.5f, -1.0f, 50.0f };
+float grassL1Pos[3] = { -12.0f, -1.0f, 10.0f };
+float grassL2Pos[3] = { -12.0f, -1.0f, 30.0f };
+float grassL3Pos[3] = { -12.0f, -1.0f, 50.0f };
+float grassR1Pos[3] = { 12.0f, -1.0f, 10.0f };
+float grassR2Pos[3] = { 12.0f, -1.0f, 30.0f };
+float grassR3Pos[3] = { 12.0f, -1.0f, 50.0f };
 float grassScale[3] = { 0.1f, 0.1f, 0.1f };
 
 float boxAngle[3] = { 0.0f, 0.0f, 0.0f };
-float boxPos[3] = { -1.1f, -1.0f, -10.0f };
+float boxPos[3] = { -1.5f, -1.0f, -10.0f };
 float boxScale[3] = { 0.1f, 0.1f, 0.1f };
 
 float coneAngle[3] = { 0.0f, 0.0f, 0.0f };
@@ -96,15 +96,15 @@ float conePos[3] = { 0.0f, -1.0f, -10.0f };
 float coneScale[3] = { 0.15f, 0.15f, 0.15f };
 
 float mooseAngle[3] = { 0.0f, 0.0f, 0.0f };
-float moosePos[3] = { 1.1f, -1.0f, -10.0f };
+float moosePos[3] = { 1.5f, -1.0f, -10.0f };
 float mooseScale[3] = { 0.1f, 0.1f, 0.1f };
 
 float skyAngle[3] = { -1.7f, 0.0f, 3.1415f };
 float skyPos[3] = { 0.0f, 20.0f, 30.0f };
 float skyScale[3] = { 100.0f, 20.0f, 50.0f };
 
-float viewPosition[3] = { 0.0, 0.0, -100.0 };
 
+float viewPosition[3] = { 0.0, 0.0, -100.0 };
 struct Material
 {
 	float emission[4] = { 0.0f, 0.0f, 0.0f, 0.0f };

@@ -43,7 +43,7 @@ struct Face
 	Index vert[3];
 };
 
-Index slash_string_to_index(std::string s)
+Index slashStringToInd(std::string s)
 {
 	std::vector<std::string> split;
 	std::stringstream ss(s);
@@ -56,7 +56,7 @@ Index slash_string_to_index(std::string s)
 	return i;
 }
 
-Index surface_to_index(Face s)
+Index faceToInd(Face s)
 {
 	std::vector<Index> v;
 	Index i = { s.vert[0].x, s.vert[1].x, s.vert[2].x };
@@ -70,15 +70,14 @@ std::vector<float> InitializeVBO(std::string filename, int& count)
 	std::vector<Normal> n;
 	std::vector<Face> s;
 
-	std::ifstream infile(filename);
+	std::ifstream file(filename);
 	std::string line;
 
-	//проходим по строкам файла
-	while (std::getline(infile, line))
+	//построчный парсинг
+	while (std::getline(file, line))
 	{
 		if (line[0] == 'v' || line[0] == 'f')
 		{
-			//разбиваем каждую строку по пробелам в вектор split
 			std::vector<std::string> split;
 			std::stringstream ss(line);
 			std::string str;
@@ -86,38 +85,34 @@ std::vector<float> InitializeVBO(std::string filename, int& count)
 			{
 				split.push_back(str);
 			}
-
-			//заполняем вектор вершин
+			//координаты вершин
 			if (split[0] == "v")
 			{
 				Vertex vert = { std::stof(split[1]), std::stof(split[2]), std::stof(split[3]) };
 				v.push_back(vert);
 			}
-
-			//заполняем вектор текстурных координат
+			//текстурные координаты
 			else if (split[0] == "vt")
 			{
 				Tex tex = { std::stof(split[1]), std::stof(split[2]) };
 				t.push_back(tex);
 			}
-
-			//заполняем вектор нормалей
+			//вектор векторов нормали
 			else if (split[0] == "vn")
 			{
 				Normal norm = { std::stof(split[1]), std::stof(split[2]), std::stof(split[3]) };
 				n.push_back(norm);
 			}
-
-			//заполняем массив индексов и соответствий
+			//индексы
 			else if (split[0] == "f")
 			{
-				Face surf =
+				Face face =
 				{
-					slash_string_to_index(split[1]),
-					slash_string_to_index(split[2]),
-					slash_string_to_index(split[3]),
+					slashStringToInd(split[1]),
+					slashStringToInd(split[2]),
+					slashStringToInd(split[3]),
 				};
-				s.push_back(surf);
+				s.push_back(face);
 			}
 		}
 	}
