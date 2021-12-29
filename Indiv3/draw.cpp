@@ -22,21 +22,33 @@ GLint unifScale;
 GLuint roadVBO;
 GLuint grassVBO;
 GLuint busVBO;
+GLuint boxVBO;
+GLuint coneVBO;
+GLuint mooseVBO;
 GLuint skyVBO;
 
 GLint roadTextureHandle;
 GLint busTextureHandle;
 GLint grassTextureHandle;
+GLint boxTextureHandle;
+GLint coneTextureHandle;
+GLint mooseTextureHandle;
 GLint skyTextureHandle;
 
 sf::Texture roadTextureData;
 sf::Texture busTextureData;
 sf::Texture grassTextureData;
+sf::Texture boxTextureData;
+sf::Texture coneTextureData;
+sf::Texture mooseTextureData;
 sf::Texture skyTextureData;
 
 GLuint roadVAO;
 GLuint busVAO;
 GLuint grassVAO;
+GLuint boxVAO;
+GLuint coneVAO;
+GLuint mooseVAO;
 GLuint skyVAO;
 
 GLint Unif_transform_viewPosition;
@@ -74,6 +86,18 @@ float grassR1Pos[3] = { 11.5f, -1.0f, 10.0f };
 float grassR2Pos[3] = { 11.5f, -1.0f, 30.0f };
 float grassR3Pos[3] = { 11.5f, -1.0f, 50.0f };
 float grassScale[3] = { 0.1f, 0.1f, 0.1f };
+
+float boxAngle[3] = { 0.0f, 0.0f, 0.0f };
+float boxPos[3] = { -1.1f, -1.0f, -10.0f };
+float boxScale[3] = { 0.1f, 0.1f, 0.1f };
+
+float coneAngle[3] = { 0.0f, 0.0f, 0.0f };
+float conePos[3] = { 0.0f, -1.0f, -10.0f };
+float coneScale[3] = { 0.15f, 0.15f, 0.15f };
+
+float mooseAngle[3] = { 0.0f, 0.0f, 0.0f };
+float moosePos[3] = { 1.1f, -1.0f, -10.0f };
+float mooseScale[3] = { 0.1f, 0.1f, 0.1f };
 
 float skyAngle[3] = { -1.7f, 0.0f, 3.1415f };
 float skyPos[3] = { 0.0f, 20.0f, 30.0f };
@@ -133,28 +157,27 @@ void ShaderLog(unsigned int shader)
 int roadInd = 0;
 int grassInd = 0;
 int busInd = 0;
+int boxInd = 0;
+int coneInd = 0;
+int mooseInd = 0;
 int skyInd = 0;
 
 void InitVBO()
 {
 	std::vector<float> pos_tex = InitializeVBO("models/road.obj", roadInd);
-
 	glGenBuffers(1, &roadVBO);
 	glGenVertexArrays(1, &roadVAO);
 	glBindVertexArray(roadVAO);
-
 	glEnableVertexAttribArray(attribVertex);
 	glEnableVertexAttribArray(attribTex);
 	glEnableVertexAttribArray(attribNormal);
 	glBindBuffer(GL_ARRAY_BUFFER, roadVBO);
 	glBufferData(GL_ARRAY_BUFFER, pos_tex.size() * sizeof(GLfloat), pos_tex.data(), GL_STATIC_DRAW);
-
 	glVertexAttribPointer(attribVertex, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glVertexAttribPointer(attribTex, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glVertexAttribPointer(attribNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(0);
 	glBindVertexArray(0);
-
 
 	pos_tex = InitializeVBO("models/grass.obj", grassInd);
 	glGenBuffers(1, &grassVBO);
@@ -165,32 +188,27 @@ void InitVBO()
 	glEnableVertexAttribArray(attribNormal);
 	glBindBuffer(GL_ARRAY_BUFFER, grassVBO);
 	glBufferData(GL_ARRAY_BUFFER, pos_tex.size() * sizeof(GLfloat), pos_tex.data(), GL_STATIC_DRAW);
-
 	glVertexAttribPointer(attribVertex, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glVertexAttribPointer(attribTex, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glVertexAttribPointer(attribNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(0);
 
-
 	pos_tex = InitializeVBO("models/bus2.obj", busInd);
 	glGenBuffers(1, &busVBO);
 	glGenVertexArrays(1, &busVAO);
 	glBindVertexArray(busVAO);
-
 	glEnableVertexAttribArray(attribVertex);
 	glEnableVertexAttribArray(attribTex);
 	glEnableVertexAttribArray(attribNormal);
 	glBindBuffer(GL_ARRAY_BUFFER, busVBO);
 	glBufferData(GL_ARRAY_BUFFER, pos_tex.size() * sizeof(GLfloat), pos_tex.data(), GL_STATIC_DRAW);
-
 	glVertexAttribPointer(attribVertex, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glVertexAttribPointer(attribTex, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glVertexAttribPointer(attribNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(0);
 	glBindVertexArray(0);
 
-
-	pos_tex = InitializeVBO("models/plane.obj", skyInd);
+	pos_tex = InitializeVBO("models/sky.obj", skyInd);
 	glGenBuffers(1, &skyVBO);
 	glGenVertexArrays(1, &skyVAO);
 	glBindVertexArray(skyVAO);
@@ -199,13 +217,57 @@ void InitVBO()
 	glEnableVertexAttribArray(attribNormal);
 	glBindBuffer(GL_ARRAY_BUFFER, skyVBO);
 	glBufferData(GL_ARRAY_BUFFER, pos_tex.size() * sizeof(GLfloat), pos_tex.data(), GL_STATIC_DRAW);
-
 	glVertexAttribPointer(attribVertex, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glVertexAttribPointer(attribTex, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glVertexAttribPointer(attribNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(0);
-
 	glBindVertexArray(0);
+
+	pos_tex = InitializeVBO("models/box.obj", boxInd);
+	glGenBuffers(1, &boxVBO);
+	glGenVertexArrays(1, &boxVAO);
+	glBindVertexArray(boxVAO);
+	glEnableVertexAttribArray(attribVertex);
+	glEnableVertexAttribArray(attribTex);
+	glEnableVertexAttribArray(attribNormal);
+	glBindBuffer(GL_ARRAY_BUFFER, boxVBO);
+	glBufferData(GL_ARRAY_BUFFER, pos_tex.size() * sizeof(GLfloat), pos_tex.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(attribVertex, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(attribTex, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(attribNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(0);
+	glBindVertexArray(0);
+
+	pos_tex = InitializeVBO("models/cone.obj", coneInd);
+	glGenBuffers(1, &coneVBO);
+	glGenVertexArrays(1, &coneVAO);
+	glBindVertexArray(coneVAO);
+	glEnableVertexAttribArray(attribVertex);
+	glEnableVertexAttribArray(attribTex);
+	glEnableVertexAttribArray(attribNormal);
+	glBindBuffer(GL_ARRAY_BUFFER, coneVBO);
+	glBufferData(GL_ARRAY_BUFFER, pos_tex.size() * sizeof(GLfloat), pos_tex.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(attribVertex, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(attribTex, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(attribNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(0);
+	glBindVertexArray(0);
+
+	pos_tex = InitializeVBO("models/los.obj", mooseInd);
+	glGenBuffers(1, &mooseVBO);
+	glGenVertexArrays(1, &mooseVAO);
+	glBindVertexArray(mooseVAO);
+	glEnableVertexAttribArray(attribVertex);
+	glEnableVertexAttribArray(attribTex);
+	glEnableVertexAttribArray(attribNormal);
+	glBindBuffer(GL_ARRAY_BUFFER, mooseVBO);
+	glBufferData(GL_ARRAY_BUFFER, pos_tex.size() * sizeof(GLfloat), pos_tex.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(attribVertex, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(attribTex, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(attribNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(0);
+	glBindVertexArray(0);
+
 	checkOpenGLerror();
 }
 
@@ -290,32 +352,52 @@ void InitTexture()
 	const char* grass = "textures/grass.png";
 	const char* bus = "textures/bus2.png";
 	const char* sky = "textures/sky.jpg";
-
+	const char* box = "textures/box.png";
+	const char* cone = "textures/cone.png";
+	const char* moose = "textures/los.png";
 
 	if (!roadTextureData.loadFromFile(road))
 	{
-		std::cout << "could not load road texture";
+		std::cout << "could not load texture road";
 		return;
 	}
 	if (!grassTextureData.loadFromFile(grass))
 	{
-		std::cout << "could not load grass texture";
+		std::cout << "could not load texture grass";
 		return;
 	}
 	if (!busTextureData.loadFromFile(bus))
 	{
-		std::cout << "could not load bus texture";
+		std::cout << "could not load texture bus";
+		return;
+	}
+	if (!boxTextureData.loadFromFile(box))
+	{
+		std::cout << "could not load texture box";
+		return;
+	}
+	if (!coneTextureData.loadFromFile(cone))
+	{
+		std::cout << "could not load texture cone";
+		return;
+	}
+	if (!mooseTextureData.loadFromFile(moose))
+	{
+		std::cout << "could not load texture los";
 		return;
 	}
 	if (!skyTextureData.loadFromFile(sky))
 	{
-		std::cout << "could not load sky texture";
+		std::cout << "could not load texture sky";
 		return;
 	}
 
 	roadTextureHandle = roadTextureData.getNativeHandle();
 	grassTextureHandle = grassTextureData.getNativeHandle();
 	busTextureHandle = busTextureData.getNativeHandle();
+	boxTextureHandle = boxTextureData.getNativeHandle();
+	coneTextureHandle = coneTextureData.getNativeHandle();
+	mooseTextureHandle = mooseTextureData.getNativeHandle();
 	skyTextureHandle = skyTextureData.getNativeHandle();
 }
 
@@ -452,6 +534,39 @@ void Draw() {
 	glDrawArrays(GL_TRIANGLES, 0, grassInd);
 	glBindVertexArray(0);
 
+	//box
+	glUniform3fv(unifRotate, 1, boxAngle);
+	glUniform3fv(unifMove, 1, boxPos);
+	glUniform3fv(unifScale, 1, boxScale);
+	glActiveTexture(GL_TEXTURE0);
+	sf::Texture::bind(&boxTextureData);
+	glUniform1i(unifTexture, 0);
+	glBindVertexArray(boxVAO);
+	glDrawArrays(GL_TRIANGLES, 0, boxInd);
+	glBindVertexArray(0);
+
+	//cone
+	glUniform3fv(unifRotate, 1, coneAngle);
+	glUniform3fv(unifMove, 1, conePos);
+	glUniform3fv(unifScale, 1, coneScale);
+	glActiveTexture(GL_TEXTURE0);
+	sf::Texture::bind(&coneTextureData);
+	glUniform1i(unifTexture, 0);
+	glBindVertexArray(coneVAO);
+	glDrawArrays(GL_TRIANGLES, 0, coneInd);
+	glBindVertexArray(0);
+
+	//moose
+	glUniform3fv(unifRotate, 1, mooseAngle);
+	glUniform3fv(unifMove, 1, moosePos);
+	glUniform3fv(unifScale, 1, mooseScale);
+	glActiveTexture(GL_TEXTURE0);
+	sf::Texture::bind(&mooseTextureData);
+	glUniform1i(unifTexture, 0);
+	glBindVertexArray(mooseVAO);
+	glDrawArrays(GL_TRIANGLES, 0, mooseInd);
+	glBindVertexArray(0);
+
 	//sky
 	glUniform3fv(unifRotate, 1, skyAngle);
 	glUniform3fv(unifMove, 1, skyPos);
@@ -465,4 +580,25 @@ void Draw() {
 
 	glUseProgram(0);
 	checkOpenGLerror();
+}
+
+void ReleaseShader() {
+	glUseProgram(0);
+	glDeleteProgram(shaderProgram);
+}
+
+// Освобождение буфера
+void ReleaseVBO()
+{
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glDeleteVertexArrays(1, &roadVAO);
+	glDeleteBuffers(1, &roadVBO);
+
+	glDeleteVertexArrays(1, &busVAO);
+	glDeleteBuffers(1, &busVBO);
+}
+
+void Release() {
+	ReleaseShader();
+	ReleaseVBO();
 }

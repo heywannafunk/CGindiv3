@@ -3,40 +3,133 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
-
 #include <iostream>
+#include <ctime>
 
 #include "shaders.cpp"
 #include "draw.cpp"
 
+using namespace std;
 
-void ReleaseShader() {
-	glUseProgram(0);
-	glDeleteProgram(shaderProgram);
+int obstacle = 0;
+bool play = false;
+int score = 0;
+bool obstaclePassed = false;
+
+void generateObstacle() {
+	srand((unsigned)time(0));
+	obstacle = (rand() % 3) + 1;
+	switch (obstacle)
+	{
+	case 1:
+		cout << "generated obstacle box" << endl;
+		break;
+
+	case 2:
+		cout << "generated obstacle cone" << endl;
+		break;
+
+	case 3:
+		cout << "generated obstacle moose" << endl;
+		break;
+	default:
+		break;
+	}
+	obstaclePassed = false;
 }
 
-// Освобождение буфера
-void ReleaseVBO()
-{
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDeleteVertexArrays(1, &roadVAO);
-	glDeleteBuffers(1, &roadVBO);
+int lane = 0;
+bool movingLeft = false;
+bool movingRight = false;
 
-	glDeleteVertexArrays(1, &busVAO);
-	glDeleteBuffers(1, &busVBO);
-}
-
-void Release() {
-	ReleaseShader();
-	ReleaseVBO();
+void gameOver() {
+	movingLeft = false;
+	movingRight = false;
+	busPos[0] = 0.0f;
+	lane = 0;
+	boxPos[2] = -10.0f;
+	conePos[2] = -10.0f;
+	moosePos[2] = -10.0f;
+	play = false;
+	cout << "Game over! Your score was: " << score << endl << "Press space to restart." << endl;
+	score = 0;
 }
 
 void roadMove() {
 	road1Pos[2] -= 0.1;
 	road2Pos[2] -= 0.1;
 	road3Pos[2] -= 0.1;
-	if (std::abs(road1Pos[2] + 10) < 0.1)
+
+
+	boxPos[2] -= 0.1;
+	conePos[2] -= 0.1;
+	moosePos[2] -= 0.1;
+
+	switch (lane)
+	{
+	case -1:
+		if (abs(busPos[2] - boxPos[2]) < 0.25)
+			gameOver();
+		break;
+	case 0:
+		if (abs(busPos[2] - conePos[2]) < 0.25)
+			gameOver();
+		break;
+	case 1:
+		if (abs(busPos[2] - moosePos[2]) < 0.25)
+			gameOver();
+		break;
+	default:
+		break;
+	}
+
+	if (obstaclePassed == false) {
+		switch (obstacle)
+		{
+		case 1:
+			if (boxPos[2] < 0.0f && boxPos[2] > -1.0f) {
+				score += 10;
+				obstaclePassed = true;
+				cout << "Obstacle passed! +10" << endl << "Your score is: " << score << endl;
+			}
+			break;
+		case 2:
+			if (conePos[2] < 0.0f && conePos[2] > -1.0f) {
+				score += 10;
+				obstaclePassed = true;
+				cout << "Obstacle passed! +10" << endl << "Your score is: " << score << endl;
+			}
+			break;
+		case 3:
+			if (moosePos[2] < 0.0f && moosePos[2] > -1.0f) {
+				score += 10;
+				obstaclePassed = true;
+				cout << "Obstacle passed! +10" << endl << "Your score is: " << score << endl;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	if (std::abs(road1Pos[2] + 10) < 0.1) {
 		road1Pos[2] = 10;
+		generateObstacle();
+		switch (obstacle)
+		{
+		case 1:
+			boxPos[2] = 10;
+			break;
+		case 2:
+			conePos[2] = 10;
+			break;
+		case 3:
+			moosePos[2] = 10;
+			break;
+		default:
+			break;
+		}
+	}
 	if (std::abs(road2Pos[2] - 10) < 0.1)
 		road2Pos[2] = 30;
 	if (std::abs(road3Pos[2] - 30) < 0.1)
@@ -83,8 +176,9 @@ void onOff() {
 		light.specular[1] = 0.0f;
 		light.specular[2] = 0.0f;
 		light.specular[3] = 0.0f;
-		
+
 		lightsOn = false;
+		cout << "lights out" << endl;
 	}
 	else {
 		light.ambient[0] = 0.5f;
@@ -103,14 +197,9 @@ void onOff() {
 		light.specular[3] = 1.0f;
 
 		lightsOn = true;
+		cout << "lights on" << endl;
 	}
 }
-
-bool moveLeft = false;
-bool moveRight = false;
-
-double angle = 0.1;
-double solarRadius = 100.0;
 
 int main() {
 	sf::Window window(sf::VideoMode(800, 600), "Game", sf::Style::Default, sf::ContextSettings(24));
@@ -123,6 +212,8 @@ int main() {
 
 	Init();
 
+	cout << "Press space to start!" << endl;
+
 	while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
@@ -132,27 +223,63 @@ int main() {
 			else if (event.type == sf::Event::Resized) {
 				glViewport(0, 0, event.size.width, event.size.height);
 			}
-
-
 			else if (event.type == sf::Event::KeyPressed) {
 				switch (event.key.code) {
+
 				case (sf::Keyboard::A):
 				{
-					moveLeft = true;
+					if (play) {
+						if (!movingRight && (lane > -1)) {
+							movingLeft = true;
+							lane--;
+						}
+					}
 					break;
 				}
 				case (sf::Keyboard::D):
 				{
-					moveRight = true;
+					if (play) {
+						if (!movingLeft && (lane < 1)) {
+							movingRight = true;
+							lane++;
+						}
+					}
 					break;
 				}
-
-
-				case (sf::Keyboard::L):
+				case (sf::Keyboard::Space):
 				{
-					angle += 0.1;
-					light.direction[0] = solarRadius * std::sin(angle);
-					light.direction[1] = solarRadius * std::cos(angle);
+					if (play) {
+						play = false;
+						cout << "Game paused. Press space to continue." << endl;
+					}
+					else {
+						play = true;
+						cout << "Game started." << endl;
+					}
+					break;
+				}
+				case (sf::Keyboard::Up):
+				{
+					light.direction[1] -= 15.0;
+					cout << "light direction x,y: " << light.direction[0] << " " << light.direction[1] << endl;
+					break;
+				}
+				case (sf::Keyboard::Left):
+				{
+					light.direction[0] -= 15.0;
+					cout << "light direction x,y: " << light.direction[0] << " " << light.direction[1] << endl;
+					break;
+				}
+				case (sf::Keyboard::Right):
+				{
+					light.direction[0] += 15.0;
+					cout << "light direction x,y: " << light.direction[0] << " " << light.direction[1] << endl;
+					break;
+				}
+				case (sf::Keyboard::Down):
+				{
+					light.direction[1] += 15.0;
+					cout << "light direction x,y: " << light.direction[0] << " " << light.direction[1] << endl;
 					break;
 				}
 				case (sf::Keyboard::O):
@@ -162,50 +289,49 @@ int main() {
 				}
 				default: break;
 				}
-			}
 
-			else if (event.type == sf::Event::KeyReleased) {
-				switch (event.key.code) {
-				case (sf::Keyboard::A):
-				{
-					moveLeft = false;
-					break;
-				}
-				case (sf::Keyboard::D):
-				{
-					moveRight = false;
-					break;
-				}
-				default: break;
-				}
 			}
 		}
 
 
-		if (moveLeft)
+		if (movingLeft)
 		{
 			busPos[0] -= 0.05;
 			busAngle[1] -= 0.05;
+			if (busPos[0] < 0.01 && busPos[0] > -0.01) {
+				movingLeft = false;
+			}
+			if (busPos[0] < -1.1) {
+				movingLeft = false;
+			}
 		}
-		if (moveRight)
+		if (movingRight)
 		{
 			busPos[0] += 0.05;
 			busAngle[1] += 0.05;
-		}
-
-		if (std::abs(busAngle[1] + 3.14) > 0.05f) {
-			if (busAngle[1] < -3.14f) 
-			{
-				busAngle[1] += 0.025f;
+			if (busPos[0] < 0.01 && busPos[0] > -0.01) {
+				movingRight = false;
 			}
-			else if (busAngle[1] > -3.14f) 
-			{
-				busAngle[1] -= 0.025f;
+			if (busPos[0] > 1.1) {
+				movingRight = false;
 			}
 		}
 
-		roadMove();
-		grassMove();
+		if (std::abs(busAngle[1] + 3.14) > 0.02f) {
+			if (busAngle[1] < -3.14f)
+			{
+				busAngle[1] += 0.03f;
+			}
+			else if (busAngle[1] > -3.14f)
+			{
+				busAngle[1] -= 0.03f;
+			}
+		}
+
+		if (play) {
+			roadMove();
+			grassMove();
+		}
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -213,8 +339,8 @@ int main() {
 
 		window.display();
 	}
-
 	Release();
 	return 0;
 }
+
 

@@ -3,19 +3,20 @@ C:\Users\Racer\source\repos\Indiv3\Indiv3\loader.cpp(55,23): warning C4838: Пр
 C:\Users\Racer\source\repos\Indiv3\Indiv3\loader.cpp(55,44): warning C4838: Преобразование из "int" в "GLushort" требует сужающего преобразования.
 C:\Users\Racer\source\repos\Indiv3\Indiv3\loader.cpp(55,65): warning C4838: Преобразование из "int" в "GLushort" требует сужающего преобразования.
 C:\Users\Racer\source\repos\Indiv3\Indiv3\loader.cpp(155,22): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(35,20): warning C4305: -=: усечение из "double" в "float"
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(36,20): warning C4305: -=: усечение из "double" в "float"
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(37,20): warning C4305: -=: усечение из "double" в "float"
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(47,22): warning C4305: -=: усечение из "double" в "float"
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(48,22): warning C4305: -=: усечение из "double" в "float"
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(49,22): warning C4305: -=: усечение из "double" в "float"
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(50,22): warning C4305: -=: усечение из "double" в "float"
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(51,22): warning C4305: -=: усечение из "double" в "float"
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(52,22): warning C4305: -=: усечение из "double" в "float"
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(154,39): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(155,39): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(187,21): warning C4305: -=: усечение из "double" в "float"
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(188,23): warning C4305: -=: усечение из "double" в "float"
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(192,21): warning C4305: +=: усечение из "double" в "float"
-C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(193,23): warning C4305: +=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(59,20): warning C4305: -=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(60,20): warning C4305: -=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(61,20): warning C4305: -=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(64,18): warning C4305: -=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(65,19): warning C4305: -=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(66,20): warning C4305: -=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(140,22): warning C4305: -=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(141,22): warning C4305: -=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(142,22): warning C4305: -=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(143,22): warning C4305: -=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(144,22): warning C4305: -=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(145,22): warning C4305: -=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(299,21): warning C4305: -=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(300,23): warning C4305: -=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(310,21): warning C4305: +=: усечение из "double" в "float"
+C:\Users\Racer\source\repos\Indiv3\Indiv3\main.cpp(311,23): warning C4305: +=: усечение из "double" в "float"
   Indiv3.vcxproj -> C:\Users\Racer\source\repos\Indiv3\x64\Debug\Indiv3.exe
